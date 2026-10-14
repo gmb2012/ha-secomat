@@ -1,0 +1,12 @@
+start_at:
+  fields:
+    config_entry_id:
+      required: true
+      selector:
+        config_entry:
+          integration: secomat
+    start:
+      required: true
+      example: "2026-10-12 22:00:00"
+      selector:
+        datetime:

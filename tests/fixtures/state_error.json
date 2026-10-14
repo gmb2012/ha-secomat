@@ -1,0 +1,27 @@
+{
+  "type": "state",
+  "version": 1,
+  "src": "secomat-test",
+  "age": 1791793800000,
+  "payload": {
+    "ambient_temperature": 21.0,
+    "humidity": 70.5,
+    "operating_mode": 2,
+    "room_drying_enabled": 1,
+    "target_humidity_level": 3,
+    "target_humidity_level_locked": 1,
+    "next_start": null,
+    "now": null,
+    "eye_seeing_object": null,
+    "hmi_backlight": 0,
+    "fw_version": "2.0.9",
+    "error_list": [
+      {
+        "err": "E12",
+        "de": {"title": "Filter verschmutzt", "description": "Bitte Filter reinigen"},
+        "en": {"title": "Filter dirty", "description": "Please clean the filter"}
+      },
+      {"err": "E07", "de": "Wasser im Gerät", "en": "Water in device"}
+    ]
+  }
+}

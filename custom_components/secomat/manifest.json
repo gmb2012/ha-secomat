@@ -1,0 +1,14 @@
+{
+  "domain": "secomat",
+  "name": "secomat (Krüger)",
+  "codeowners": [
+    "@gmb2012"
+  ],
+  "config_flow": true,
+  "documentation": "https://github.com/gmb2012/ha-secomat",
+  "integration_type": "device",
+  "iot_class": "cloud_polling",
+  "issue_tracker": "https://github.com/gmb2012/ha-secomat/issues",
+  "requirements": [],
+  "version": "0.1.0"
+}

@@ -1,0 +1,151 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "secomat",
+        "description": "Enter the claim token of your secomat. It can be read once via Bluetooth with tools/read_token.py (see README).",
+        "data": {
+          "token": "Claim token",
+          "name": "Name"
+        },
+        "data_description": {
+          "token": "Device secret used by the official app. Never share it.",
+          "name": "Name of the device in Home Assistant."
+        }
+      },
+      "reauth_confirm": {
+        "title": "Re-enter claim token",
+        "description": "The secomat cloud rejected the stored claim token. Enter the current token of this secomat.",
+        "data": {
+          "token": "Claim token"
+        },
+        "data_description": {
+          "token": "Device secret used by the official app. Never share it."
+        }
+      }
+    },
+    "error": {
+      "invalid_auth": "The secomat cloud rejected the claim token.",
+      "cannot_connect": "Cannot reach the secomat cloud."
+    },
+    "abort": {
+      "already_configured": "This secomat is already configured.",
+      "reauth_successful": "The claim token was updated.",
+      "unique_id_mismatch": "This token belongs to a different secomat."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "temperature": {
+        "name": "Temperature"
+      },
+      "humidity": {
+        "name": "Humidity"
+      },
+      "operating_state": {
+        "name": "Operating state",
+        "state": {
+          "off": "Off",
+          "auto": "Auto",
+          "manual_on": "Manual on"
+        }
+      },
+      "next_start": {
+        "name": "Next start"
+      },
+      "errors": {
+        "name": "Errors"
+      },
+      "firmware": {
+        "name": "Firmware"
+      },
+      "data_age": {
+        "name": "Data age"
+      },
+      "device_state": {
+        "name": "Status",
+        "state": {
+          "ready": "Ready",
+          "starting": "Starting",
+          "drying": "Drying"
+        }
+      }
+    },
+    "binary_sensor": {
+      "problem": {
+        "name": "Problem"
+      },
+      "laundry_detected": {
+        "name": "Laundry detected"
+      }
+    },
+    "switch": {
+      "room_drying": {
+        "name": "Room drying"
+      },
+      "backlight": {
+        "name": "Display backlight"
+      },
+      "level_lock": {
+        "name": "Lock drying level"
+      }
+    },
+    "select": {
+      "operating_mode": {
+        "name": "Operating mode",
+        "state": {
+          "off": "Off",
+          "auto": "Auto",
+          "manual_on": "Manual on"
+        }
+      },
+      "drying_level": {
+        "name": "Drying level",
+        "state": {
+          "very_dry": "Very dry",
+          "dry": "Dry",
+          "medium": "Medium",
+          "damp": "Damp"
+        }
+      }
+    },
+    "button": {
+      "start_drying": {
+        "name": "Start drying"
+      },
+      "stop_drying": {
+        "name": "Stop drying"
+      },
+      "cancel_scheduled_start": {
+        "name": "Cancel scheduled start"
+      }
+    }
+  },
+  "exceptions": {
+    "command_failed": {
+      "message": "The secomat command failed: {error}"
+    },
+    "entry_not_found": {
+      "message": "No secomat configuration entry with this ID."
+    },
+    "entry_not_loaded": {
+      "message": "The secomat configuration entry is not loaded."
+    }
+  },
+  "services": {
+    "start_at": {
+      "name": "Start drying at",
+      "description": "Schedules laundry drying to start at the given time.",
+      "fields": {
+        "config_entry_id": {
+          "name": "secomat",
+          "description": "The secomat to schedule."
+        },
+        "start": {
+          "name": "Start",
+          "description": "Date and time to start drying. Times in the past start immediately."
+        }
+      }
+    }
+  }
+}

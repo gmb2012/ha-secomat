@@ -1,0 +1,21 @@
+{
+  "type": "state",
+  "version": 1,
+  "src": "secomat-test",
+  "age": "2026-10-12T08:30:00Z",
+  "payload": {
+    "ambient_temperature": 18.5,
+    "humidity": 62.0,
+    "operating_mode": 1,
+    "room_drying_enabled": 0,
+    "target_humidity_level": 2,
+    "target_humidity_level_locked": 0,
+    "next_start": "2026-10-12T14:00:00+00:00",
+    "now": 1791793800,
+    "eye_seeing_object": 0,
+    "secomat_state": 2,
+    "hmi_backlight": 1,
+    "fw_version": "2.1.0",
+    "error_list": []
+  }
+}

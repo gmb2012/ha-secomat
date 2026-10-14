@@ -1,0 +1,151 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "secomat",
+        "description": "Claim-Token deines secomat eingeben. Er lässt sich einmalig per Bluetooth mit tools/read_token.py auslesen (siehe README).",
+        "data": {
+          "token": "Claim-Token",
+          "name": "Name"
+        },
+        "data_description": {
+          "token": "Geräte-Geheimnis der offiziellen App. Nicht weitergeben.",
+          "name": "Name des Geräts in Home Assistant."
+        }
+      },
+      "reauth_confirm": {
+        "title": "Claim-Token erneut eingeben",
+        "description": "Die secomat-Cloud hat den gespeicherten Claim-Token abgelehnt. Aktuellen Token dieses secomat eingeben.",
+        "data": {
+          "token": "Claim-Token"
+        },
+        "data_description": {
+          "token": "Geräte-Geheimnis der offiziellen App. Nicht weitergeben."
+        }
+      }
+    },
+    "error": {
+      "invalid_auth": "Die secomat-Cloud hat den Claim-Token abgelehnt.",
+      "cannot_connect": "Die secomat-Cloud ist nicht erreichbar."
+    },
+    "abort": {
+      "already_configured": "Dieser secomat ist bereits eingerichtet.",
+      "reauth_successful": "Der Claim-Token wurde aktualisiert.",
+      "unique_id_mismatch": "Dieser Token gehört zu einem anderen secomat."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "temperature": {
+        "name": "Temperatur"
+      },
+      "humidity": {
+        "name": "Luftfeuchtigkeit"
+      },
+      "operating_state": {
+        "name": "Betriebszustand",
+        "state": {
+          "off": "Aus",
+          "auto": "Auto",
+          "manual_on": "Manuell an"
+        }
+      },
+      "next_start": {
+        "name": "Nächster Start"
+      },
+      "errors": {
+        "name": "Fehler"
+      },
+      "firmware": {
+        "name": "Firmware"
+      },
+      "data_age": {
+        "name": "Datenalter"
+      },
+      "device_state": {
+        "name": "Status",
+        "state": {
+          "ready": "Bereit",
+          "starting": "Startet",
+          "drying": "Trocknet"
+        }
+      }
+    },
+    "binary_sensor": {
+      "problem": {
+        "name": "Problem"
+      },
+      "laundry_detected": {
+        "name": "Wäsche erkannt"
+      }
+    },
+    "switch": {
+      "room_drying": {
+        "name": "Raumtrocknung"
+      },
+      "backlight": {
+        "name": "Display-Beleuchtung"
+      },
+      "level_lock": {
+        "name": "Trocknungsstufe sperren"
+      }
+    },
+    "select": {
+      "operating_mode": {
+        "name": "Betriebsart",
+        "state": {
+          "off": "Aus",
+          "auto": "Auto",
+          "manual_on": "Manuell an"
+        }
+      },
+      "drying_level": {
+        "name": "Trocknungsstufe",
+        "state": {
+          "very_dry": "Sehr trocken",
+          "dry": "Trocken",
+          "medium": "Mittel",
+          "damp": "Feucht"
+        }
+      }
+    },
+    "button": {
+      "start_drying": {
+        "name": "Trocknung starten"
+      },
+      "stop_drying": {
+        "name": "Trocknung stoppen"
+      },
+      "cancel_scheduled_start": {
+        "name": "Geplanten Start löschen"
+      }
+    }
+  },
+  "exceptions": {
+    "command_failed": {
+      "message": "Der secomat-Befehl ist fehlgeschlagen: {error}"
+    },
+    "entry_not_found": {
+      "message": "Kein secomat-Konfigurationseintrag mit dieser ID."
+    },
+    "entry_not_loaded": {
+      "message": "Der secomat-Konfigurationseintrag ist nicht geladen."
+    }
+  },
+  "services": {
+    "start_at": {
+      "name": "Trocknung starten um",
+      "description": "Plant den Start der Wäschetrocknung zum angegebenen Zeitpunkt.",
+      "fields": {
+        "config_entry_id": {
+          "name": "secomat",
+          "description": "Der secomat, der geplant werden soll."
+        },
+        "start": {
+          "name": "Start",
+          "description": "Datum und Uhrzeit des Starts. Zeitpunkte in der Vergangenheit starten sofort."
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,10 @@
+__pycache__/
+.coverage
+.pytest_cache/
+.ruff_cache/
+.omc/
+# Claim tokens and other secrets must never be committed (Krüger, 14.10.2026).
+token.txt
+*.token
+.env
+secrets.yaml

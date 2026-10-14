@@ -1,0 +1,22 @@
+{
+  "type": "STATE",
+  "version": 1,
+  "src": "ws",
+  "age": "2026-10-12T21:09:55.917Z",
+  "payload": {
+    "now": 83224,
+    "secomat_state": 0,
+    "operating_mode": 1,
+    "room_drying_enabled": 1,
+    "ambient_temperature": 21.168077,
+    "humidity": 52.71735,
+    "next_start": 0,
+    "target_humidity_level": 0,
+    "target_humidity_level_locked": 0,
+    "hmi_backlight": 1,
+    "eye_seeing_object": 1,
+    "error_list": [],
+    "fw_version": "0.3.06",
+    "serial_number": "00.00000"
+  }
+}

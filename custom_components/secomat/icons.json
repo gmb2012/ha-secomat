@@ -1,0 +1,20 @@
+{
+  "entity": {
+    "binary_sensor": {
+      "laundry_detected": {
+        "default": "mdi:tshirt-crew-outline",
+        "state": {
+          "on": "mdi:tshirt-crew"
+        }
+      }
+    },
+    "sensor": {
+      "device_state": {
+        "default": "mdi:tumble-dryer",
+        "state": {
+          "drying": "mdi:tumble-dryer-alert"
+        }
+      }
+    }
+  }
+}
