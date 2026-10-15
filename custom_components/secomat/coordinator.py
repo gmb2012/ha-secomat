@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import asyncio
 from collections.abc import Awaitable
+from dataclasses import replace
 import logging
 
 from homeassistant.config_entries import ConfigEntry
@@ -36,11 +37,15 @@ class SecomatCoordinator(DataUpdateCoordinator[SecomatState]):
 
     async def _async_update_data(self) -> SecomatState:
         try:
-            return await self.client.get_state()
+            state = await self.client.get_state()
         except SecomatAuthError as err:
             raise ConfigEntryAuthFailed(str(err)) from err
         except SecomatApiError as err:
             raise UpdateFailed(str(err)) from err
+        # The cloud sometimes omits secomat_state for minutes mid-run; keep the last known code.
+        if state.device_state is None and self.data is not None:
+            return replace(state, device_state=self.data.device_state)
+        return state
 
     async def async_command(self, command: Awaitable[None]) -> None:
         """Await a client command, map errors for the UI and refresh once the cloud caught up."""

@@ -15,7 +15,7 @@ from pytest_homeassistant_custom_component.common import (
     async_fire_time_changed,
 )
 
-from custom_components.secomat.api import SecomatAuthError, SecomatConnectionError
+from custom_components.secomat.api import SecomatAuthError, SecomatConnectionError, SecomatState
 from custom_components.secomat.const import SCAN_INTERVAL
 
 TEMPERATURE = "sensor.secomat_temperature"
@@ -118,3 +118,27 @@ async def test_failed_command_skips_wait_and_refresh(
         await coordinator.async_command(coordinator.client.set_backlight(False))
     sleep.assert_not_awaited()
     assert mock_client["get_state"].await_count == calls_before
+
+
+async def test_missing_device_state_keeps_last_code(
+    hass: HomeAssistant,
+    config_entry: MockConfigEntry,
+    mock_client: dict[str, AsyncMock],
+    state_ok: SecomatState,
+    freezer: FrozenDateTimeFactory,
+) -> None:
+    # The cloud sometimes omits secomat_state for minutes mid-run (seen 14./15.10.2026).
+    mock_client["get_state"].return_value = SecomatState.from_api(
+        {"payload": {**state_ok.payload, "secomat_state": 6}}
+    )
+    await _setup(hass, config_entry)
+
+    payload = {key: value for key, value in state_ok.payload.items() if key != "secomat_state"}
+    mock_client["get_state"].return_value = SecomatState.from_api({"payload": payload})
+    freezer.tick(SCAN_INTERVAL)
+    async_fire_time_changed(hass)
+    await hass.async_block_till_done()
+
+    status = hass.states.get("sensor.secomat_status")
+    assert status.state == "drying"
+    assert status.attributes["code"] == 6

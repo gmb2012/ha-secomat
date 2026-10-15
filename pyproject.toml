@@ -1,6 +1,6 @@
 [project]
 name = "secomat-ha"
-version = "0.1.0"
+version = "0.1.1"
 description = "Unofficial Home Assistant integration for the Krüger secomat 2 laundry dryer"
 requires-python = ">=3.13"
 license = "MIT"
