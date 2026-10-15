@@ -66,8 +66,10 @@
         "name": "Status",
         "state": {
           "ready": "Ready",
-          "starting": "Starting",
-          "drying": "Drying"
+          "drying": "Drying",
+          "finished": "Finished",
+          "aborted": "Aborted",
+          "error": "Error"
         }
       }
     },

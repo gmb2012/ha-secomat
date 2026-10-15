@@ -3,9 +3,8 @@
 [![Validate](https://github.com/gmb2012/ha-secomat/actions/workflows/validate.yml/badge.svg)](https://github.com/gmb2012/ha-secomat/actions/workflows/validate.yml)
 [![HACS Custom](https://img.shields.io/badge/HACS-Custom-41BDF5.svg)](https://hacs.xyz/docs/faq/custom_repositories/)
 
-> **Beta:** runs in the author's home since October 2026 (secomat 2, firmware 0.3.06). The device's
-> internal state codes are undocumented and still being collected; codes not yet known show up as
-> *Status* `unknown` with the raw value in the attribute `code`. Please report those via an issue.
+> Runs in the author's home since October 2026 (secomat 2, firmware 0.3.06). The meaning of the
+> device's state codes was kindly provided by Krüger ([#1](https://github.com/gmb2012/ha-secomat/issues/1)).
 
 Unofficial Home Assistant integration for the **Krüger secomat 2** laundry dryer / room dehumidifier.
 It polls the same cloud API that the official secomat app uses (every 60 s) and sends the same commands.
@@ -46,10 +45,11 @@ password** and do not post it anywhere.
 |---|---|
 | Sensor *Temperature*, *Humidity* | Room climate measured by the secomat |
 | Sensor *Operating state* | Off / Auto / Manual on |
+| Sensor *Status* | Ready / Drying / Finished (laundry dry, waiting to be taken out) / Aborted / Error; raw code in the attribute `code` |
 | Sensor *Next start* | Scheduled start of laundry drying |
 | Sensor *Errors* | Number of active errors, texts in the attribute `errors` |
 | Sensor *Firmware*, *Data age* | Diagnostics |
-| Binary sensor *Problem* | On while any error is active |
+| Binary sensor *Problem* | On while any error is active or the device is in its error state |
 | Switch *Room drying* | 24 h room drying |
 | Switch *Display backlight*, *Lock drying level* | Configuration |
 | Select *Operating mode* | Off / Auto / Manual on |
@@ -64,9 +64,9 @@ time; times in the past start immediately.
 Inoffizielle Home-Assistant-Integration für den **Krüger secomat 2**. Sie fragt alle 60 s dieselbe
 Cloud-API ab wie die offizielle App. **Kein Zusammenhang mit Krüger + Co. AG**, keine Unterstützung
 durch den Hersteller; die API ist nicht dokumentiert und kann sich jederzeit ändern. Laut Krüger ist
-das Protokoll für secomat 2, 4, 6 und 8 gleich; getestet ist nur der secomat 2. **Beta:** Die internen
-Statuscodes des Geräts sind nicht dokumentiert; unbekannte Codes erscheinen als *Status* `unknown` mit dem
-Rohwert im Attribut `code` – bitte als Issue melden.
+das Protokoll für secomat 2, 4, 6 und 8 gleich; getestet ist nur der secomat 2. Die Bedeutung der Statuscodes hat Krüger
+freundlicherweise erklärt ([#1](https://github.com/gmb2012/ha-secomat/issues/1)); *Fertig* heisst: Wäsche
+trocken, Gerät wartet auf die Entnahme.
 
 - **Installation:** HACS → *Benutzerdefinierte Repositories* → URL dieses Repos, Kategorie
   *Integration* → *secomat (Krüger)* installieren → HA neu starten → Integration hinzufügen,

@@ -89,14 +89,28 @@ async def test_entities_with_error_state(
     assert hass.states.get("switch.secomat_display_backlight").state == STATE_OFF
 
 
-# Main drying phase, reported from ~1 min after a start (seen live 13./14.10.2026).
-@pytest.mark.parametrize("code", [6, 10, 15])
-async def test_status_main_drying_phase(
+# secomat_state as documented by Krüger (issue #1, 15.10.2026).
+@pytest.mark.parametrize(
+    ("code", "expected"),
+    [
+        (0, "ready"),
+        (1, "drying"),
+        (4, "drying"),
+        (6, "drying"),
+        (10, "drying"),
+        (14, "drying"),
+        (15, "finished"),
+        (16, "aborted"),
+        (19, "error"),
+    ],
+)
+async def test_status_codes(
     hass: HomeAssistant,
     config_entry: MockConfigEntry,
     mock_client: dict[str, AsyncMock],
     state_ok: SecomatState,
     code: int,
+    expected: str,
 ) -> None:
     mock_client["get_state"].return_value = SecomatState.from_api(
         {"payload": {**state_ok.payload, "secomat_state": code}}
@@ -104,9 +118,24 @@ async def test_status_main_drying_phase(
     await _setup(hass, config_entry)
 
     status = hass.states.get("sensor.secomat_status")
-    assert status.state == "drying"
-    assert status.attributes["options"] == ["ready", "starting", "drying"]
+    assert status.state == expected
+    assert status.attributes["options"] == ["ready", "drying", "finished", "aborted", "error"]
     assert status.attributes["code"] == code
+
+
+async def test_error_state_turns_problem_on(
+    hass: HomeAssistant,
+    config_entry: MockConfigEntry,
+    mock_client: dict[str, AsyncMock],
+    state_ok: SecomatState,
+) -> None:
+    # 19: error state without an entry in error_list still counts as a problem.
+    mock_client["get_state"].return_value = SecomatState.from_api(
+        {"payload": {**state_ok.payload, "secomat_state": 19, "error_list": []}}
+    )
+    await _setup(hass, config_entry)
+
+    assert hass.states.get("binary_sensor.secomat_problem").state == STATE_ON
 
 
 async def test_status_unmapped_code_kept_as_attribute(
@@ -116,13 +145,13 @@ async def test_status_unmapped_code_kept_as_attribute(
     state_ok: SecomatState,
 ) -> None:
     mock_client["get_state"].return_value = SecomatState.from_api(
-        {"payload": {**state_ok.payload, "secomat_state": 7}}
+        {"payload": {**state_ok.payload, "secomat_state": 17}}
     )
     await _setup(hass, config_entry)
 
     status = hass.states.get("sensor.secomat_status")
     assert status.state == "unknown"
-    assert status.attributes["code"] == 7
+    assert status.attributes["code"] == 17
 
 
 async def test_device_and_unique_ids(

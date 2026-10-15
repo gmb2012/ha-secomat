@@ -30,16 +30,17 @@ ATTR_START: Final = "start"
 
 # operating_mode values of the device (app: PowerMode STAND_BY / READY / ON).
 OPERATING_MODES: Final = {0: "off", 1: "auto", 2: "manual_on"}
-# secomat_state as seen live (12.-14.10.2026): 0 idle/ready, 1 right after a manual start,
-# 2 first minute of drying, then 6 and/or 15 for the rest of the run (6 for hours, 15 at the end).
-# 10 interrupts 6 for exactly 3 min, several times per run (undocumented, likely a defrost pause).
+# secomat_state as documented by Krüger (github.com/gmb2012/ha-secomat/issues/1): 0 idle (room
+# drying runs separately), 1-4 pre-drying, 5-8 main drying (compressor + defrost), 9-14 final
+# drying, 15 sensor reset after an auto run (laundry dry, waits until it is taken out), 16 abort,
+# 19 error (needs a reboot). 17/18 are service-only manual modes, never seen via the cloud.
+STATE_ERROR: Final = 19
 DEVICE_STATES: Final = {
     0: "ready",
-    1: "starting",
-    2: "drying",
-    6: "drying",
-    10: "drying",
-    15: "drying",
+    **dict.fromkeys(range(1, 15), "drying"),
+    15: "finished",
+    16: "aborted",
+    STATE_ERROR: "error",
 }
 
 # target_humidity_level values (app: FinalHumidity LOWEST / LOW / MEDIUM / HIGH).

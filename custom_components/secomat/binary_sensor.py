@@ -1,4 +1,4 @@
-"""Binary sensors: problem (any error reported) and laundry detected (optical sensor)."""
+"""Binary sensors: problem (error reported or error state) and laundry detected (optical sensor)."""
 
 from __future__ import annotations
 
@@ -6,6 +6,7 @@ from homeassistant.components.binary_sensor import BinarySensorDeviceClass, Bina
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
+from .const import STATE_ERROR
 from .coordinator import SecomatConfigEntry
 from .entity import SecomatEntity
 
@@ -30,7 +31,8 @@ class SecomatProblemSensor(SecomatEntity, BinarySensorEntity):
 
     @property
     def is_on(self) -> bool:
-        return bool(self.coordinator.data.errors)
+        data = self.coordinator.data
+        return bool(data.errors) or data.device_state == STATE_ERROR
 
 
 class SecomatLaundrySensor(SecomatEntity, BinarySensorEntity):

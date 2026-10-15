@@ -66,8 +66,10 @@
         "name": "Status",
         "state": {
           "ready": "Bereit",
-          "starting": "Startet",
-          "drying": "Trocknet"
+          "drying": "Trocknet",
+          "finished": "Fertig",
+          "aborted": "Abgebrochen",
+          "error": "Fehler"
         }
       }
     },
